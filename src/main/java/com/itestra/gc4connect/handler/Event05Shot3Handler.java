@@ -1,11 +1,13 @@
 package com.itestra.gc4connect.handler;
 
+import com.itestra.gc4connect.message.GC4Message;
 import org.apache.commons.lang3.Validate;
 
 public class Event05Shot3Handler extends GC4MessageHandler {
 
-    public static final int MESSAGE_LENGTH_BYTES = 51;
+    public static final int MESSAGE_LENGTH_BYTES = 62;
     public static final String OPERATION_000 = "05";
+    public static final String UNKNOWN_002_TO_005 = "38000000";
 
     @Override
     public String getDefaultHexMessageString() {
@@ -20,6 +22,105 @@ public class Event05Shot3Handler extends GC4MessageHandler {
 
         validateHexString(0, OPERATION_000, hexMessageString);
         validateHexString(1, DIRECTION_001_GC4_EVENT, hexMessageString);
+
+        // unknown int 1, always 0x38000000
+        validateHexString(2, UNKNOWN_002_TO_005, hexMessageString);
+
+        // unkown int 2
+        {
+            String unknownAsHexString = hexSubString(6, 4, hexMessageString);
+            int unknown = GC4Message.lBytesToInt(GC4Message.hexStringToByteArray(unknownAsHexString));
+            System.out.println(String.format("position 6 to 9 (0x%s) int value=%d", unknownAsHexString, unknown));
+        }
+
+        // shotNumber int 3
+        {
+            String shotNumberAsHexString = hexSubString(10, 4, hexMessageString);
+            int shotNumber = GC4Message.lBytesToInt(GC4Message.hexStringToByteArray(shotNumberAsHexString));
+            System.out.println(String.format("position 10 to 13 (0x%s) int shotNumber=%d", shotNumberAsHexString, shotNumber));
+        }
+
+        // unkown float 1
+        {
+            String unknownAsHexString = hexSubString(14, 4, hexMessageString);
+            float unknownFloat = GC4Message.lBytesToFloat(GC4Message.hexStringToByteArray(unknownAsHexString));
+            System.out.println(String.format("position 14 to 17 (0x%s) float value=%f", unknownAsHexString, unknownFloat));
+        }
+
+        // unkown float 2
+        {
+            String unknownAsHexString = hexSubString(18, 4, hexMessageString);
+            float unknownFloat = GC4Message.lBytesToFloat(GC4Message.hexStringToByteArray(unknownAsHexString));
+            System.out.println(String.format("position 18 to 21 (0x%s) float value=%f", unknownAsHexString, unknownFloat));
+        }
+
+        // unkown float 3
+        {
+            String unknownAsHexString = hexSubString(22, 4, hexMessageString);
+            float unknownFloat = GC4Message.lBytesToFloat(GC4Message.hexStringToByteArray(unknownAsHexString));
+            System.out.println(String.format("position 22 to 25 (0x%s) float value=%f", unknownAsHexString, unknownFloat));
+        }
+
+        // unkown float 4
+        {
+            String unknownAsHexString = hexSubString(26, 4, hexMessageString);
+            float unknownFloat = GC4Message.lBytesToFloat(GC4Message.hexStringToByteArray(unknownAsHexString));
+            System.out.println(String.format("position 26 to 29 (0x%s) float value=%f", unknownAsHexString, unknownFloat));
+        }
+
+        // unkown float 5
+        {
+            String unknownAsHexString = hexSubString(30, 4, hexMessageString);
+            float unknownFloat = GC4Message.lBytesToFloat(GC4Message.hexStringToByteArray(unknownAsHexString));
+            System.out.println(String.format("position 30 to 33 (0x%s) float value=%f", unknownAsHexString, unknownFloat));
+        }
+
+        // unkown float 6
+        {
+            String unknownAsHexString = hexSubString(34, 4, hexMessageString);
+            float unknownFloat = GC4Message.lBytesToFloat(GC4Message.hexStringToByteArray(unknownAsHexString));
+            System.out.println(String.format("position 34 to 37 (0x%s) float value=%f", unknownAsHexString, unknownFloat));
+        }
+
+        // unkown float 7
+        {
+            String unknownAsHexString = hexSubString(38, 4, hexMessageString);
+            float unknownFloat = GC4Message.lBytesToFloat(GC4Message.hexStringToByteArray(unknownAsHexString));
+            System.out.println(String.format("position 38 to 41 (0x%s) float value=%f", unknownAsHexString, unknownFloat));
+        }
+
+        // unkown float 8
+        {
+            String unknownAsHexString = hexSubString(42, 4, hexMessageString);
+            float unknownFloat = GC4Message.lBytesToFloat(GC4Message.hexStringToByteArray(unknownAsHexString));
+            System.out.println(String.format("position 42 to 45 (0x%s) float value=%f", unknownAsHexString, unknownFloat));
+        }
+
+        // unkown float 9
+        {
+            String unknownAsHexString = hexSubString(46, 4, hexMessageString);
+            float unknownFloat = GC4Message.lBytesToFloat(GC4Message.hexStringToByteArray(unknownAsHexString));
+            System.out.println(String.format("position 46 to 49 (0x%s) float value=%f", unknownAsHexString, unknownFloat));
+        }
+
+        // unkown float 10
+        {
+            String unknownAsHexString = hexSubString(50, 4, hexMessageString);
+            float unknownFloat = GC4Message.lBytesToFloat(GC4Message.hexStringToByteArray(unknownAsHexString));
+            System.out.println(String.format("position 50 to 53 (0x%s) float value=%f", unknownAsHexString, unknownFloat));
+        }
+        // unkown float 11
+        {
+            String unknownAsHexString = hexSubString(54, 4, hexMessageString);
+            float unknownFloat = GC4Message.lBytesToFloat(GC4Message.hexStringToByteArray(unknownAsHexString));
+            System.out.println(String.format("position 54 to 57 (0x%s) float value=%f", unknownAsHexString, unknownFloat));
+        }
+        // unkown float 12
+        {
+            String unknownAsHexString = hexSubString(58, 4, hexMessageString);
+            float unknownFloat = GC4Message.lBytesToFloat(GC4Message.hexStringToByteArray(unknownAsHexString));
+            System.out.println(String.format("position 58 to 61 (0x%s) float value=%f", unknownAsHexString, unknownFloat));
+        }
     }
 
 }

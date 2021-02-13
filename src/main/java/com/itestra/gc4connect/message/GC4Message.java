@@ -32,6 +32,73 @@ public abstract class GC4Message {
     }
 
     /**
+     * High byte array converted to float
+     *
+     * @param b byte[]
+     * @return float
+     */
+    public static float hBytesToFloat(byte[] b) {
+        Validate.isTrue(b.length == 4);
+
+        int intBits = Long.valueOf(bytesToHexString(b, 4), 16).intValue();
+//        Float f = new Float(0.0);
+//        int i = ((((b[0] & 0xff) << 8 | (b[1] & 0xff)) << 8) | (b[2] & 0xff)) << 8 | (b[3] & 0xff);
+//        return f.intBitsToFloat(i);
+        return Float.intBitsToFloat(intBits);
+    }
+
+    /**
+     * Low byte array converted to float
+     *
+     * @param b byte[]
+     * @return float
+     */
+    public static float lBytesToFloat(byte[] b) {
+        Validate.isTrue(b.length == 4);
+
+        int intBits = Long.valueOf(bytesToHexString(bytesReverseOrder(b), 4), 16).intValue();
+//        Float f = new Float(0.0);
+//        int i = ((((b[3] & 0xff) << 8 | (b[2] & 0xff)) << 8) | (b[1] & 0xff)) << 8 | (b[0] & 0xff);
+        return Float.intBitsToFloat(intBits);
+    }
+
+    /**
+     * converts float to low byte before, byte array after high BYTE
+     */
+    public static byte[] toLH(float f) {
+        return toLH(Float.floatToRawIntBits(f));
+    }
+
+    /**
+     * Float is converted to high byte before, byte array after low byte
+     */
+    public static byte[] toHH(float f) {
+        return toHH(Float.floatToRawIntBits(f));
+    }
+
+    /**
+     * Converts a float value to a byte order inversion corresponding float
+     *
+     * @param f float
+     * @return float
+     */
+    public static float reverseFloat(float f) {
+        float result = hBytesToFloat(toLH(f));
+        return result;
+    }
+
+    /**
+     * Converts the value of the short type to a byte-order inversion corresponding to the short value
+     *
+     * @param s short
+     * @return Short
+     */
+    public static short reverseShort(short s) {
+        short result = hBytesToShort(toLH(s));
+        return result;
+    }
+
+    /**
      * converts int to low byte in front, high byte array
      *
      * @param n int
@@ -119,6 +186,30 @@ public abstract class GC4Message {
             s = s + b[3];
         } else {
             s = s + 256 + b[3];
+        }
+        return s;
+    }
+
+    /**
+     * Converts a low byte array to an int
+     *
+     * @param b byte[]
+     * @return int
+     */
+    public static int lBytesToInt(byte[] b) {
+        int s = 0;
+        for (int i = 0; i < 3; i++) {
+            if (b[3 - i] >= 0) {
+                s = s + b[3 - i];
+            } else {
+                s = s + 256 + b[3 - i];
+            }
+            s = s * 256;
+        }
+        if (b[0] >= 0) {
+            s = s + b[0];
+        } else {
+            s = s + 256 + b[0];
         }
         return s;
     }

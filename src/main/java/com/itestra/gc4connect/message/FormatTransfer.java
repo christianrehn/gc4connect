@@ -34,19 +34,6 @@ public class FormatTransfer {
         return abyte0;
     }
 
-    /**
-     * converts float to low byte before, byte array after high BYTE
-     */
-    public static byte[] toLH(float f) {
-        return toLH(Float.floatToRawIntBits(f));
-    }
-
-    /**
-     * Will FloAt is converted to high byte before, byte array after low byte
-     */
-    public static byte[] toHH(float f) {
-        return toHH(Float.floatToRawIntBits(f));
-    }
 
     /**
      * Converts a string to a byte array
@@ -82,29 +69,7 @@ public class FormatTransfer {
         return s.getBytes();
     }
 
-    /**
-     * Converts a low byte array to an int
-     *
-     * @param b byte[]
-     * @return int
-     */
-    public static int lBytesToInt(byte[] b) {
-        int s = 0;
-        for (int i = 0; i < 3; i++) {
-            if (b[3 - i] >= 0) {
-                s = s + b[3 - i];
-            } else {
-                s = s + 256 + b[3 - i];
-            }
-            s = s * 256;
-        }
-        if (b[0] >= 0) {
-            s = s + b[0];
-        } else {
-            s = s + 256 + b[0];
-        }
-        return s;
-    }
+
 
     /**
      * High byte array to short conversion
@@ -152,33 +117,6 @@ public class FormatTransfer {
         return result;
     }
 
-    /**
-     * High byte array converted to float
-     *
-     * @param b byte[]
-     * @return float
-     */
-    public static float hBytesToFloat(byte[] b) {
-        int i = 0;
-        Float F = new Float(0.0);
-        i = ((((b[0] & 0xff) << 8 | (b[1] & 0xff)) << 8) | (b[2] & 0xff)) << 8 | (b[3] & 0xff);
-        return F.intBitsToFloat(i);
-    }
-
-    /**
-     * Low byte array converted to float
-     *
-     * @param b byte[]
-     * @return float
-     */
-    public static float lBytesToFloat(byte[] b) {
-        int i = 0;
-        Float F = new Float(0.0);
-        i = ((((b[3] & 0xff) << 8 | (b[2] & 0xff)) << 8) | (b[1] & 0xff)) << 8 | (b[0] & 0xff);
-        return F.intBitsToFloat(i);
-    }
-
-
     public static void printBytes(byte[] bb) {
         int length = bb.length;
         for (int i = 0; i < length; i++) {
@@ -206,26 +144,6 @@ public class FormatTransfer {
 //        return result;
 //    }
 
-    /**
-     * Converts the value of the short type to a byte-order inversion corresponding to the short value
-     *
-     * @param s short
-     * @return Short
-     */
-    public static short reverseShort(short s) {
-        short result = FormatTransfer.hBytesToShort(FormatTransfer.toLH(s));
-        return result;
-    }
 
-    /**
-     * Converts a float value to a byte order inversion corresponding float
-     *
-     * @param f float
-     * @return float
-     */
-    public static float reverseFloat(float f) {
-        float result = FormatTransfer.hBytesToFloat(FormatTransfer.toLH(f));
-        return result;
-    }
 
 }

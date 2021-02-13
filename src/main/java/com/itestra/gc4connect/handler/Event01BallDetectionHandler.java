@@ -3,6 +3,10 @@ package com.itestra.gc4connect.handler;
 import com.itestra.gc4connect.message.GC4Message;
 import org.apache.commons.lang3.Validate;
 
+/**
+ * X inside: ~ 65 -
+ * Y inside: ~ 22 - 215
+ */
 public class Event01BallDetectionHandler extends GC4MessageHandler {
 
     public static final int MESSAGE_LENGTH_BYTES = 51;
@@ -39,7 +43,7 @@ public class Event01BallDetectionHandler extends GC4MessageHandler {
             String ballReadyAsHexString = hexSubString(8, 1, hexMessageString);
             byte[] ballReadyAsBytes = GC4Message.hexStringToByteArray(ballReadyAsHexString);
             boolean ballReady = ballReadyAsBytes[0] != 0;
-            System.out.println(String.format("ball ready=%s", ballReady));
+            System.out.println(String.format("ball ready=%s", ballReadyAsBytes[0]));
         }
 
         // get number of balls detected
@@ -50,10 +54,10 @@ public class Event01BallDetectionHandler extends GC4MessageHandler {
         // get ball positions
         for (int i = 0; i < numberOfBalls; i++) {
             String xBallPositionAsHexString = hexSubString(10 + i * 8, 4, hexMessageString);
-            int xBallPosition = GC4Message.hBytesToInt(GC4Message.bytesReverseOrder(GC4Message.hexStringToByteArray(xBallPositionAsHexString)));
+            int xBallPosition = GC4Message.lBytesToInt(GC4Message.hexStringToByteArray(xBallPositionAsHexString));
 
             String yBallPositionAsHexString = hexSubString(10 + i * 8 + 4, 4, hexMessageString);
-            int yBallPosition = GC4Message.hBytesToInt(GC4Message.bytesReverseOrder(GC4Message.hexStringToByteArray(yBallPositionAsHexString)));
+            int yBallPosition = GC4Message.lBytesToInt(GC4Message.hexStringToByteArray(yBallPositionAsHexString));
             System.out.println(String.format("ball %d position: x=%d, y=%d", i, xBallPosition, yBallPosition));
         }
     }

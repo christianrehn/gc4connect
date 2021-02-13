@@ -77,4 +77,52 @@ class GC4MessageTest {
         assertEquals(-129, intValue);
     }
 
+    @Test
+    void hBytesToFloatPositiveInfinity() {
+        byte[] bytes = {(byte) 0x7f, (byte) 0x80, (byte) 0x00, (byte) 0x00};
+        float f = GC4Message.hBytesToFloat(bytes);
+        assertEquals(Float.POSITIVE_INFINITY, f);
+    }
+
+    @Test
+    void hBytesToFloatNegativeInfinity() {
+        byte[] bytes = {(byte) 0xff, (byte) 0x80, (byte) 0x00, (byte) 0x00};
+        float f = GC4Message.hBytesToFloat(bytes);
+        assertEquals(Float.NEGATIVE_INFINITY, f);
+    }
+
+    @Test
+    void hBytesToFloatNaN() {
+        byte[] bytes = {(byte) 0x7f, (byte) 0xff, (byte) 0xff, (byte) 0xff};
+        float f = GC4Message.hBytesToFloat(bytes);
+        assertEquals(Float.NaN, f);
+    }
+
+    @Test
+    void lBytesToFloat() {
+        byte[] bytes = {(byte) 0x00, (byte) 0x00, (byte) 0x80, (byte) 0x7f};
+        float f = GC4Message.lBytesToFloat(bytes);
+        assertEquals(Float.POSITIVE_INFINITY, f);
+    }
+
+    @Test
+    void lBytesToFloatNegativeInfinity() {
+        byte[] bytes = {(byte) 0x00, (byte) 0x00, (byte) 0x80, (byte) 0xff};
+        float f = GC4Message.lBytesToFloat(bytes);
+        assertEquals(Float.NEGATIVE_INFINITY, f);
+    }
+
+    @Test
+    void lBytesToFloatNaN() {
+        byte[] bytes = {(byte) 0xff, (byte) 0xff, (byte) 0xff, (byte) 0x7f};
+        float f = GC4Message.lBytesToFloat(bytes);
+        assertEquals(Float.NaN, f);
+    }
+
+    @Test
+    void lBytesToFloatMaxValue() {
+        byte[] bytes = {(byte) 0xff, (byte) 0xff, (byte) 0x7f, (byte) 0x7f};
+        float f = GC4Message.lBytesToFloat(bytes);
+        assertEquals(Float.MAX_VALUE, f);
+    }
 }
