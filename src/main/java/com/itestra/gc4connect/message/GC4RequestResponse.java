@@ -1,16 +1,39 @@
 package com.itestra.gc4connect.message;
 
 public final class GC4RequestResponse extends GC4Message {
+
+    public static String REQUEST_0302_STRING_76 =
+            "0302" + "00000000";
+
+    public static String RESPONSE_0312_STRING_80 =
+            "0312" + "1400000005000003" +
+                    "0100000000000000" + "0800060100000000";
+
+    public static String REQUEST_0602_STRING_60 =
+            "060" + "200000000";
+
+    public static String RESPONSE_0612_STRING_120 =
+            "0612" + "3c00000000040000" +
+                    "00004001f0001a00" + "1600250116001a00" +
+                    "e0002501e0000000" + "0000010500000000" +
+                    "4001f00042001600" + "ca00160022016600" +
+                    "4200dd002201dd00";
+
+    public static String REQUEST_1102_STRING_76 = "110210000000933c84af1ba8b1c214480b6183c6ae90";
+
+    public static String RESPONSE_1112_STRING_66 =
+            "1112" + "06000000010199cc" +
+                    "3342";
+
     public static String REQUEST_1202_STRING_76 = "120210000000933c84af1ba8b1c214480b6183c6ae90";
-    public static byte[] REQUEST_1202_REQUEST_BYTES_76 = hexStringToByteArray(REQUEST_1202_STRING_76);
 
     public static String RESPONSE_1212_STRING_780 =
-            "1212d0020000d073c996" +
-                    "b3c5eac3c7cd1e254b8807ef88828a0e" +
-                    "c78be761fe518e4210601e1418a2e655" +
-                    "f3a699b19dc417f7b02f127dc3ea67df" +
-                    "385cee877ef2f9dc88e5c29a1950d1f6" +
-                    "93789e840f9cc7b5d8f722040573e653" +
+            "1212" + "d0020000d073c996" +
+                    "b3c5eac3c7cd1e25" + "4b8807ef88828a0e" +
+                    "c78be761fe518e42" + "10601e1418a2e655" +
+                    "f3a699b19dc417f7" + "b02f127dc3ea67df" +
+                    "385cee877ef2f9dc" + "88e5c29a1950d1f6" +
+                    "93789e840f9cc7b5" + "d8f722040573e653" +
                     "6cf0304d635241a8fb13894566fe3b9b" +
                     "7f1ec24a0a740a5e81de9bf5db570b20" +
                     "de14dbdd6218e78ba076e01acc10bb06" +
@@ -51,25 +74,6 @@ public final class GC4RequestResponse extends GC4Message {
                     "b66178ea210e4da3f772cd811af4a3e5" +
                     "9f4a0f80fa0bfeeefcd0d380ee3b9ea0" +
                     "53952e2da88ff9dffc1a6f99";
-    public static byte[] RESPONSE_1212_BYTES_780 = hexStringToByteArray(RESPONSE_1212_STRING_780);
-
-    public static String REQUEST_1102_STRING_76 = "110210000000933c84af1ba8b1c214480b6183c6ae90";
-    public static byte[] REQUEST_1102_BYTES_76 = hexStringToByteArray(REQUEST_1102_STRING_76);
-
-    public static String RESPONSE_1112_STRING_66 = "111206000000010199cc3342";
-    public static byte[] RESPONSE_1112_BYTES_66 = hexStringToByteArray(RESPONSE_1112_STRING_66);
-
-    public static String REQUEST_0302_STRING_76 = "030200000000";
-    public static byte[] REQUEST_0302_BYTES_66 = hexStringToByteArray(REQUEST_0302_STRING_76);
-
-    public static String RESPONSE_0312_STRING_80 = "0312140000000500000301000000000000000800060100000000";
-    public static byte[] RESPONSE_0312_BYTES_80 = hexStringToByteArray(RESPONSE_0312_STRING_80);
-
-    public static String REQUEST_0602_STRING_60 = "060200000000";
-    public static byte[] REQUEST_0602_BYTES_60 = hexStringToByteArray(REQUEST_0602_STRING_60);
-
-    public static String RESPONSE_0612_STRING_120 = "06123c0000000004000000004001f0001a001600250116001a00e0002501e000000000000105000000004001f00042001600ca001600220166004200dd002201dd00";
-    public static byte[] RESPONSE_0612_BYTES_120 = hexStringToByteArray(RESPONSE_0612_STRING_120);
 
     private GC4RequestResponse() {
         // no instance

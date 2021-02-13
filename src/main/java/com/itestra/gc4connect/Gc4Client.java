@@ -1,8 +1,8 @@
 package com.itestra.gc4connect;
 
+import com.itestra.gc4connect.handler.*;
+import com.itestra.gc4connect.message.GC4Message;
 import com.itestra.gc4connect.message.GC4RequestResponse;
-import com.itestra.gc4connect.handler.Event01BallDetectionHandler;
-import com.itestra.gc4connect.handler.Response06Handler;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -96,6 +96,7 @@ public class Gc4Client {
                                 break;
 
                             case "03":
+                                new Response03Handler().handleHexMessageString(hexMessageString);
                                 break;
 
                             case "06":
@@ -103,9 +104,11 @@ public class Gc4Client {
                                 break;
 
                             case "11":
+                                new Response11Handler().handleHexMessageString(hexMessageString);
                                 break;
 
                             case "12":
+                                new Response12Handler().handleHexMessageString(hexMessageString);
                                 break;
 
                             default:
@@ -124,22 +127,22 @@ public class Gc4Client {
 
         // send data to GC4
         System.out.println("send 1202 message to GC4");
-        gc4Client.sendMessage(GC4RequestResponse.REQUEST_1202_REQUEST_BYTES_76);
+        gc4Client.sendMessage(GC4Message.hexStringToByteArray(GC4RequestResponse.REQUEST_1202_STRING_76));
 
         // send data to GC4
         Thread.sleep(1000);
         System.out.println("send 1102 message to GC4");
-        gc4Client.sendMessage(GC4RequestResponse.REQUEST_1102_BYTES_76);
+        gc4Client.sendMessage(GC4Message.hexStringToByteArray(GC4RequestResponse.REQUEST_1102_STRING_76));
 
         // send data to GC4
         Thread.sleep(1000);
         System.out.println("send 0302 message to GC4");
-        gc4Client.sendMessage(GC4RequestResponse.REQUEST_0302_BYTES_66);
+        gc4Client.sendMessage(GC4Message.hexStringToByteArray(GC4RequestResponse.REQUEST_0302_STRING_76));
 
         // send data to GC4
         Thread.sleep(1000);
         System.out.println("send 0602 message to GC4");
-        gc4Client.sendMessage(GC4RequestResponse.REQUEST_0602_BYTES_60);
+        gc4Client.sendMessage(GC4Message.hexStringToByteArray(GC4RequestResponse.REQUEST_0602_STRING_60));
 
         inThread.join();
     }

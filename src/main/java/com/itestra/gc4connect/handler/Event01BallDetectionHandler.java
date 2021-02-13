@@ -3,11 +3,10 @@ package com.itestra.gc4connect.handler;
 import com.itestra.gc4connect.message.GC4Message;
 import org.apache.commons.lang3.Validate;
 
-public class Event01BallDetectionHandler extends AbstractMessageHandler {
+public class Event01BallDetectionHandler extends MessageHandler {
 
     public static final int MESSAGE_LENGTH_BYTES = 51;
     public static final String OPERATION_000 = "01";
-    public static final String DIRECTION_001 = "00";
     public static final String UNKNOWN_002_TO_005 = "2d" + "00" + "00" + "00";
     public static final String UNKNOWN_050 = "00";
 
@@ -23,7 +22,7 @@ public class Event01BallDetectionHandler extends AbstractMessageHandler {
         super.handleHexMessageString(hexMessageString);
 
         validateHexStringBytes(0, OPERATION_000, hexMessageString);
-        validateHexStringBytes(1, DIRECTION_001, hexMessageString);
+        validateHexStringBytes(1, DIRECTION_001_GC4_EVENT, hexMessageString);
         validateHexStringBytes(2, UNKNOWN_002_TO_005, hexMessageString);
         validateHexStringBytes(50, UNKNOWN_050, hexMessageString);
 
@@ -57,25 +56,6 @@ public class Event01BallDetectionHandler extends AbstractMessageHandler {
             int yBallPosition = GC4Message.hBytesToInt(GC4Message.bytesReverseOrder(GC4Message.hexStringToByteArray(yBallPositionAsHexString)));
             System.out.println(String.format("ball %d position: x=%d, y=%d", i, xBallPosition, yBallPosition));
         }
-    }
-
-    private String getHexStringBytes(int position, int byteLen, String hexMessageString) {
-        int beginIndex = position * 2;
-        return hexMessageString.substring(beginIndex, beginIndex + byteLen * 2);
-    }
-
-    private String validateHexStringBytes(int position, String expected, String hexMessageString) {
-        Validate.notEmpty(hexMessageString);
-        Validate.isTrue(hexMessageString.length() >= position * 2 + expected.length());
-        Validate.notEmpty(expected);
-
-        int charLen = expected.length();
-        Validate.isTrue(charLen % 2 == 0);
-        String hexStringBytes = getHexStringBytes(position, charLen / 2, hexMessageString);
-        if (!expected.equals(hexStringBytes)) {
-            throw new RuntimeException(String.format("wrong byte at position %d, expected: %s, actual: %s", position, expected, hexStringBytes));
-        }
-        return hexStringBytes;
     }
 
 }

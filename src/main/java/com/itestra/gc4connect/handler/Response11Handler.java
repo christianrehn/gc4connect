@@ -3,14 +3,14 @@ package com.itestra.gc4connect.handler;
 import com.itestra.gc4connect.message.GC4RequestResponse;
 import org.apache.commons.lang3.Validate;
 
-public class Response06Handler extends MessageHandler {
+public class Response11Handler extends MessageHandler {
 
-    public static final int MESSAGE_LENGTH_BYTES = 66;
-    public static final String OPERATION_000 = "06";
+    public static final int MESSAGE_LENGTH_BYTES = 12;
+    public static final String OPERATION_000 = "11";
 
     @Override
     public String getDefaultHexMessageString() {
-        return GC4RequestResponse.RESPONSE_0612_STRING_120;
+        return GC4RequestResponse.RESPONSE_1112_STRING_66;
     }
 
     public void handleHexMessageString(String hexMessageString) {
