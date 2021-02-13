@@ -64,64 +64,66 @@ public class GC4Client {
             public void run() {
                 try {
                     while (true) {
-                        int chunkSize = 1024;
-                        byte[] receivedBytes = new byte[chunkSize];
-                        boolean end = false;
-                        StringBuilder hexMessageStringBuilder = new StringBuilder();
-                        int totalBytesRead = 0;
-                        while (!end) {
-                            int currentBytesRead = gc4Client.in.read(receivedBytes, 0, chunkSize);
-                            System.out.println("number of bytes read: " + currentBytesRead);
+                        // read 1st byte: operation
+                        byte operation = (byte) gc4Client.in.read();
+                        byte[] operationBytes = new byte[]{operation};
+                        String operationHexString = GC4Message.bytesToHexString(operationBytes, 1);
 
-                            // add bytes to return string
-                            totalBytesRead = currentBytesRead + totalBytesRead;
-                            hexMessageStringBuilder.append(GC4RequestResponse.bytesToHexString(receivedBytes, currentBytesRead));
-                            if (currentBytesRead < chunkSize) {
-                                end = true;
-                            }
-                        }
-                        String hexMessageString = hexMessageStringBuilder.toString();
-                        Validate.isTrue(hexMessageString.length() >= 2, "hexMessageString too short");
-                        System.out.println("hexMessageString received, length: " + hexMessageString.length());
-                        System.out.println("hexMessageString:");
-                        System.out.println(hexMessageString);
+                        // get message length for operation
+                        int messageLengthBytes = GC4MessageHandler.getMessageLengthBytes(operationHexString);
+                        int restMessageLengthBytes = messageLengthBytes - 1; // 1 byte already read
 
-                        String hexMessageType = GC4MessageHandler.hexSubString(0, 1, hexMessageString);
-                        String directionAsHexString = GC4MessageHandler.hexSubString(1, 1, hexMessageString);
-                        switch (hexMessageType) {
+                        // read the rest of this message
+                        byte[] receivedBytes = new byte[restMessageLengthBytes];
+                        int currentBytesRead = gc4Client.in.read(receivedBytes, 0, restMessageLengthBytes);
+                        System.out.println("number of bytes read: " + currentBytesRead);
+                        Validate.isTrue(restMessageLengthBytes == currentBytesRead);
+
+                        // bild hex string from message
+                        String messageHexString = operationHexString + GC4RequestResponse.bytesToHexString(receivedBytes, currentBytesRead);
+                        Validate.isTrue(messageHexString.length() >= 2, "hexMessageString too short");
+                        System.out.println("messageHexString received, length: " + messageHexString.length());
+                        System.out.println("messageHexString:");
+                        System.out.println(messageHexString);
+
+                        // get message direction/type
+                        String directionHexString = GC4MessageHandler.hexSubString(1, 1, messageHexString);
+
+                        // handle message
+                        switch (operationHexString) {
                             case "01":
-                                new Event01BallDetectionHandler().handleHexMessageString(hexMessageString);
+                                new Event01BallDetectionHandler().handleHexMessageString(messageHexString);
                                 break;
 
                             case "02":
-                                new Event02Shot1Handler().handleHexMessageString(hexMessageString);
+                                new Event02ShotBallDataHandler().handleHexMessageString(messageHexString);
                                 break;
 
                             case "03":
-                                if (GC4MessageHandler.DIRECTION_001_GC4_EVENT.equals(directionAsHexString)) {
-                                    new Event03Shot2Handler().handleHexMessageString(hexMessageString);
-                                } else if (GC4MessageHandler.DIRECTION_001_GC4_TO_HOST.equals(directionAsHexString)) {
-                                    new Response03Handler().handleHexMessageString(hexMessageString);
+                                if (GC4MessageHandler.DIRECTION_001_GC4_EVENT.equals(directionHexString)) {
+                                    new Event03ShotSpinDataHandler().handleHexMessageString(messageHexString);
+                                } else if (GC4MessageHandler.DIRECTION_001_GC4_TO_HOST.equals(directionHexString)) {
+                                    new Response03Handler().handleHexMessageString(messageHexString);
 
                                     // send 0602 to GC4
                                     Thread.sleep(1000);
                                     System.out.println("send 0602 message to GC4");
                                     gc4Client.sendMessage(GC4Message.hexStringToByteArray(GC4RequestResponse.REQUEST_0602_STRING_60));
                                 } else {
-                                    throw new RuntimeException("direction unknown: " + directionAsHexString);
+                                    throw new RuntimeException("direction unknown: " + directionHexString);
                                 }
                                 break;
 
                             case "05":
-                                new Event05Shot3Handler().handleHexMessageString(hexMessageString);
+                                new Event05ShotClubDataHandler().handleHexMessageString(messageHexString);
                                 break;
 
                             case "06":
-                                new Response06Handler().handleHexMessageString(hexMessageString);
+                                new Response06Handler().handleHexMessageString(messageHexString);
                                 break;
 
                             case "11":
-                                new Response11Handler().handleHexMessageString(hexMessageString);
+                                new Response11Handler().handleHexMessageString(messageHexString);
 
                                 // send 0302 to GC4
                                 Thread.sleep(1000);
@@ -130,7 +132,7 @@ public class GC4Client {
                                 break;
 
                             case "12":
-                                new Response12Handler().handleHexMessageString(hexMessageString);
+                                new Response12Handler().handleHexMessageString(messageHexString);
 
                                 // send 1102 to GC4
                                 Thread.sleep(1000);
@@ -139,7 +141,7 @@ public class GC4Client {
                                 break;
 
                             default:
-                                System.err.println("unknown message type: " + hexMessageType);
+                                System.err.println("unknown message type: " + operationHexString);
                         }
                     }
                 } catch (

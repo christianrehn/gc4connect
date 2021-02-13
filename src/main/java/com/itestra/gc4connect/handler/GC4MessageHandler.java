@@ -4,6 +4,55 @@ import org.apache.commons.lang3.Validate;
 
 public abstract class GC4MessageHandler {
 
+    // operations (1st byte in message) and message lengths in bytes
+    public static final String OPERATION_BALL_DETECTION = "01";
+    public static final int MESSAGE_LENGTH_BYTES_BALL_DETECTION = 51;
+
+    public static final String OPERATION_EVENT02_SHOT1 = "02";
+    public static final int MESSAGE_LENGTH_BYTES_EVENT02_SHOT1 = 50;
+
+    public static final String OPERATION_RESPONSE03_OR_EVENT03_SHOT2 = "03";
+    public static final int MESSAGE_LENGTH_BYTES_RESPONSE03_OR_EVENT03_SHOT2 = 26;
+
+    public static final String OPERATION_RESPONSE05 = "05";
+    public static final int MESSAGE_LENGTH_BYTES_RESPONSE05 = 62;
+
+    public static final String OPERATION_RESPONSE06 = "06";
+    public static final int MESSAGE_LENGTH_BYTES_RESPONSE06 = 66;
+
+    public static final String OPERATION_RESPONSE11 = "11";
+    public static final int MESSAGE_LENGTH_BYTES_RESPONSE11 = 12;
+
+    public static final String OPERATION_RESPONSE12 = "12";
+    public static final int MESSAGE_LENGTH_BYTES_RESPONSE12 = 726;
+
+    public static int getMessageLengthBytes(String operationHexString) {
+        if (GC4MessageHandler.OPERATION_BALL_DETECTION.equals(operationHexString)) {
+            return MESSAGE_LENGTH_BYTES_BALL_DETECTION;
+        }
+        if (GC4MessageHandler.OPERATION_EVENT02_SHOT1.equals(operationHexString)) {
+            return MESSAGE_LENGTH_BYTES_EVENT02_SHOT1;
+        }
+        if (GC4MessageHandler.OPERATION_RESPONSE03_OR_EVENT03_SHOT2.equals(operationHexString)) {
+            return MESSAGE_LENGTH_BYTES_RESPONSE03_OR_EVENT03_SHOT2;
+        }
+        if (GC4MessageHandler.OPERATION_RESPONSE05.equals(operationHexString)) {
+            return MESSAGE_LENGTH_BYTES_RESPONSE05;
+        }
+        if (GC4MessageHandler.OPERATION_RESPONSE06.equals(operationHexString)) {
+            return MESSAGE_LENGTH_BYTES_RESPONSE06;
+        }
+        if (GC4MessageHandler.OPERATION_RESPONSE11.equals(operationHexString)) {
+            return MESSAGE_LENGTH_BYTES_RESPONSE11;
+        }
+        if (GC4MessageHandler.OPERATION_RESPONSE12.equals(operationHexString)) {
+            return MESSAGE_LENGTH_BYTES_RESPONSE12;
+        }
+
+        throw new RuntimeException("unknown operation: " + operationHexString);
+    }
+
+    // dircetion values
     public static final String DIRECTION_001_GC4_EVENT = "00";
     public static final String DIRECTION_001_GC4_TO_HOST = "12";
 

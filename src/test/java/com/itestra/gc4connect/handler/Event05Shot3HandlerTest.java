@@ -3,13 +3,11 @@ package com.itestra.gc4connect.handler;
 import com.itestra.gc4connect.message.GC4Event;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class Event05Shot3HandlerTest {
 
     @Test
     void handleHexMessageString() {
-        new Event05Shot3Handler().handleHexMessageString(GC4Event.EVENT_0500_STRING_116_SHOT_3);
+        new Event05ShotClubDataHandler().handleHexMessageString(GC4Event.EVENT_0500_STRING_116_SHOT_CLUB_DATA);
     }
 
     @Test
@@ -20,6 +18,6 @@ class Event05Shot3HandlerTest {
                         "a853333f" + "ffff7f7f" + "ffff7f7f" + "ffff7f7f" +
                         "ffff7f7f" + "ffff7f7f" + "ffff7f7f" + "ffff7f7f" +
                         "ffff7f7f";
-        new Event05Shot3Handler().handleHexMessageString(event0500String116Shot3);
+        new Event05ShotClubDataHandler().handleHexMessageString(event0500String116Shot3);
     }
 }

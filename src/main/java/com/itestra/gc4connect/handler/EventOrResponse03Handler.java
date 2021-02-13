@@ -5,7 +5,7 @@ import org.apache.commons.lang3.Validate;
 
 public abstract class EventOrResponse03Handler extends GC4MessageHandler {
 
-    public static final String OPERATION_000 = "03";
+    public static final String UNKNOWN_002_TO_005 = "14000000";
 
     @Override
     public String getDefaultHexMessageString() {

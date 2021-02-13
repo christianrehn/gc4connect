@@ -9,8 +9,6 @@ import org.apache.commons.lang3.Validate;
  */
 public class Event01BallDetectionHandler extends GC4MessageHandler {
 
-    public static final int MESSAGE_LENGTH_BYTES = 51;
-    public static final String OPERATION_000 = "01";
     public static final String UNKNOWN_002_TO_005 = "2d" + "00" + "00" + "00";
     public static final String UNKNOWN_050 = "00";
 
@@ -21,11 +19,13 @@ public class Event01BallDetectionHandler extends GC4MessageHandler {
 
     public void handleHexMessageString(String hexMessageString) {
         Validate.notEmpty(hexMessageString);
-        Validate.isTrue(hexMessageString.length() == 2 * MESSAGE_LENGTH_BYTES, "" + hexMessageString.length());
+        Validate.isTrue(hexMessageString.length() == 2 * MESSAGE_LENGTH_BYTES_BALL_DETECTION, "" + hexMessageString.length());
 
         super.handleHexMessageString(hexMessageString);
 
-        validateHexString(0, OPERATION_000, hexMessageString);
+        System.out.println(String.format("BALL DETECTION EVENT"));
+
+        validateHexString(0, OPERATION_BALL_DETECTION, hexMessageString);
         validateHexString(1, DIRECTION_001_GC4_EVENT, hexMessageString);
         validateHexString(2, UNKNOWN_002_TO_005, hexMessageString);
         validateHexString(50, UNKNOWN_050, hexMessageString);

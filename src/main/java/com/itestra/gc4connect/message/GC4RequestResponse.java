@@ -6,8 +6,8 @@ public final class GC4RequestResponse extends GC4Message {
             "0302" + "00000000";
 
     public static String RESPONSE_0312_STRING_80 =
-            "0312" + "1400000005000003" +
-                    "0100000000000000" + "0800060100000000";
+            "0312" + "14000000" + "05000003" +
+                    "01000000" + "00000000" + "08000601" + "00000000";
 
     public static String REQUEST_0602_STRING_60 =
             "060" + "200000000";
