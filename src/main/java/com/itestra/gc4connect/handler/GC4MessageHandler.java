@@ -2,7 +2,7 @@ package com.itestra.gc4connect.handler;
 
 import org.apache.commons.lang3.Validate;
 
-public abstract class MessageHandler {
+public abstract class GC4MessageHandler {
 
     public static final String DIRECTION_001_GC4_EVENT = "00";
     public static final String DIRECTION_001_GC4_TO_HOST = "12";
@@ -22,27 +22,31 @@ public abstract class MessageHandler {
             return;
         }
 
-        if (hexMessageString.equals(getDefaultHexMessageString())) {
+        if (hexMessageString.equalsIgnoreCase(getDefaultHexMessageString())) {
             System.out.println("received message is equal to the expected default message");
             return;
         }
-        throw new RuntimeException("received message does not match default message: " + hexMessageString);
+        throw new RuntimeException(
+                "received message does not match default message\n"
+                        + "expected: " + getDefaultHexMessageString() + "\n"
+                        + "received: " + hexMessageString + "\n"
+        );
     }
 
-    protected String getHexStringBytes(int position, int byteLen, String hexMessageString) {
+    public static String hexSubString(int position, int byteLen, String hexString) {
         int beginIndex = position * 2;
-        return hexMessageString.substring(beginIndex, beginIndex + byteLen * 2);
+        return hexString.substring(beginIndex, beginIndex + byteLen * 2);
     }
 
-    protected String validateHexStringBytes(int position, String expected, String hexMessageString) {
-        Validate.notEmpty(hexMessageString);
-        Validate.isTrue(hexMessageString.length() >= position * 2 + expected.length());
+    protected static String validateHexString(int position, String expected, String hexString) {
+        Validate.notEmpty(hexString);
+        Validate.isTrue(hexString.length() >= position * 2 + expected.length());
         Validate.notEmpty(expected);
 
         int charLen = expected.length();
         Validate.isTrue(charLen % 2 == 0);
-        String hexStringBytes = getHexStringBytes(position, charLen / 2, hexMessageString);
-        if (!expected.equals(hexStringBytes)) {
+        String hexStringBytes = hexSubString(position, charLen / 2, hexString);
+        if (!expected.equalsIgnoreCase(hexStringBytes)) {
             throw new RuntimeException(String.format("wrong byte at position %d, expected: %s, actual: %s", position, expected, hexStringBytes));
         }
         return hexStringBytes;

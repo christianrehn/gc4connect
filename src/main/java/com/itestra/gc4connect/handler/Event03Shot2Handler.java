@@ -1,6 +1,5 @@
 package com.itestra.gc4connect.handler;
 
-import com.itestra.gc4connect.message.GC4Message;
 import org.apache.commons.lang3.Validate;
 
 public class Event03Shot2Handler extends EventOrResponse03Handler {
@@ -18,8 +17,8 @@ public class Event03Shot2Handler extends EventOrResponse03Handler {
 
         super.handleHexMessageString(hexMessageString);
 
-        validateHexStringBytes(0, OPERATION_000, hexMessageString);
-        validateHexStringBytes(1, DIRECTION_001_GC4_EVENT, hexMessageString);
+        validateHexString(0, OPERATION_000, hexMessageString);
+        validateHexString(1, DIRECTION_001_GC4_EVENT, hexMessageString);
     }
 
 }

@@ -2,7 +2,7 @@ package com.itestra.gc4connect.handler;
 
 import org.apache.commons.lang3.Validate;
 
-public class Event05Shot3Handler extends MessageHandler {
+public class Event05Shot3Handler extends GC4MessageHandler {
 
     public static final int MESSAGE_LENGTH_BYTES = 51;
     public static final String OPERATION_000 = "05";
@@ -18,8 +18,8 @@ public class Event05Shot3Handler extends MessageHandler {
 
         super.handleHexMessageString(hexMessageString);
 
-        validateHexStringBytes(0, OPERATION_000, hexMessageString);
-        validateHexStringBytes(1, DIRECTION_001_GC4_EVENT, hexMessageString);
+        validateHexString(0, OPERATION_000, hexMessageString);
+        validateHexString(1, DIRECTION_001_GC4_EVENT, hexMessageString);
     }
 
 }

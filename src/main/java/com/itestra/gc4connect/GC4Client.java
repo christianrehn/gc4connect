@@ -12,9 +12,9 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
-public class Gc4Client {
+public class GC4Client {
 
-    private static final Logger LOG = LoggerFactory.getLogger(Gc4Client.class);
+    private static final Logger LOG = LoggerFactory.getLogger(GC4Client.class);
 
     private static final int GC4_PORT = 5001;
     private static final String GC4_IP = "192.168.100.76";
@@ -55,7 +55,7 @@ public class Gc4Client {
 
     public static void main(String[] args) throws InterruptedException {
         // connect to GC4
-        Gc4Client gc4Client = new Gc4Client();
+        GC4Client gc4Client = new GC4Client();
         gc4Client.startConnection(GC4_IP, GC4_PORT);
 
         // receive data from GC4
@@ -65,20 +65,17 @@ public class Gc4Client {
                 try {
                     while (true) {
                         int chunkSize = 1024;
-                        byte[] messageByte = new byte[chunkSize];
+                        byte[] receivedBytes = new byte[chunkSize];
                         boolean end = false;
                         StringBuilder hexMessageStringBuilder = new StringBuilder();
                         int totalBytesRead = 0;
                         while (!end) {
-                            int currentBytesRead = gc4Client.in.read(messageByte, 0, chunkSize);
+                            int currentBytesRead = gc4Client.in.read(receivedBytes, 0, chunkSize);
+                            System.out.println("number of bytes read: " + currentBytesRead);
 
                             // add bytes to return string
                             totalBytesRead = currentBytesRead + totalBytesRead;
-                            if (totalBytesRead <= chunkSize) {
-                                hexMessageStringBuilder.append(GC4RequestResponse.bytesToHexString(messageByte, 0, currentBytesRead));
-                            } else {
-                                hexMessageStringBuilder.append(GC4RequestResponse.bytesToHexString(messageByte, 0, chunkSize - totalBytesRead + currentBytesRead));
-                            }
+                            hexMessageStringBuilder.append(GC4RequestResponse.bytesToHexString(receivedBytes, currentBytesRead));
                             if (currentBytesRead < chunkSize) {
                                 end = true;
                             }
@@ -89,7 +86,8 @@ public class Gc4Client {
                         System.out.println("hexMessageString:");
                         System.out.println(hexMessageString);
 
-                        String hexMessageType = hexMessageString.substring(0, 2);
+                        String hexMessageType = GC4MessageHandler.hexSubString(0, 1, hexMessageString);
+                        String directionAsHexString = GC4MessageHandler.hexSubString(1, 1, hexMessageString);
                         switch (hexMessageType) {
                             case "01":
                                 new Event01BallDetectionHandler().handleHexMessageString(hexMessageString);
@@ -100,7 +98,18 @@ public class Gc4Client {
                                 break;
 
                             case "03":
-                                new EventOrResponse03Handler().handleHexMessageString(hexMessageString);
+                                if (GC4MessageHandler.DIRECTION_001_GC4_EVENT.equals(directionAsHexString)) {
+                                    new Event03Shot2Handler().handleHexMessageString(hexMessageString);
+                                } else if (GC4MessageHandler.DIRECTION_001_GC4_TO_HOST.equals(directionAsHexString)) {
+                                    new Response03Handler().handleHexMessageString(hexMessageString);
+
+                                    // send 0602 to GC4
+                                    Thread.sleep(1000);
+                                    System.out.println("send 0602 message to GC4");
+                                    gc4Client.sendMessage(GC4Message.hexStringToByteArray(GC4RequestResponse.REQUEST_0602_STRING_60));
+                                } else {
+                                    throw new RuntimeException("direction unknown: " + directionAsHexString);
+                                }
                                 break;
 
                             case "05":
@@ -113,17 +122,28 @@ public class Gc4Client {
 
                             case "11":
                                 new Response11Handler().handleHexMessageString(hexMessageString);
+
+                                // send 0302 to GC4
+                                Thread.sleep(1000);
+                                System.out.println("send 0302 message to GC4");
+                                gc4Client.sendMessage(GC4Message.hexStringToByteArray(GC4RequestResponse.REQUEST_0302_STRING_76));
                                 break;
 
                             case "12":
                                 new Response12Handler().handleHexMessageString(hexMessageString);
+
+                                // send 1102 to GC4
+                                Thread.sleep(1000);
+                                System.out.println("send 1102 message to GC4");
+                                gc4Client.sendMessage(GC4Message.hexStringToByteArray(GC4RequestResponse.REQUEST_1102_STRING_76));
                                 break;
 
                             default:
                                 System.err.println("unknown message type: " + hexMessageType);
                         }
                     }
-                } catch (Throwable t) {
+                } catch (
+                        Throwable t) {
                     t.printStackTrace();
                 } finally {
                     // disconnect
@@ -136,21 +156,6 @@ public class Gc4Client {
         // send 1202 to GC4
         System.out.println("send 1202 message to GC4");
         gc4Client.sendMessage(GC4Message.hexStringToByteArray(GC4RequestResponse.REQUEST_1202_STRING_76));
-
-        // send 1102 to GC4
-        Thread.sleep(1000);
-        System.out.println("send 1102 message to GC4");
-        gc4Client.sendMessage(GC4Message.hexStringToByteArray(GC4RequestResponse.REQUEST_1102_STRING_76));
-
-        // send 0302 to GC4
-        Thread.sleep(1000);
-        System.out.println("send 0302 message to GC4");
-        gc4Client.sendMessage(GC4Message.hexStringToByteArray(GC4RequestResponse.REQUEST_0302_STRING_76));
-
-        // send 0602 to GC4
-        Thread.sleep(1000);
-        System.out.println("send 0602 message to GC4");
-        gc4Client.sendMessage(GC4Message.hexStringToByteArray(GC4RequestResponse.REQUEST_0602_STRING_60));
 
         inThread.join();
     }

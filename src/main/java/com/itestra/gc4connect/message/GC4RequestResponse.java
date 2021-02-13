@@ -22,8 +22,7 @@ public final class GC4RequestResponse extends GC4Message {
     public static String REQUEST_1102_STRING_76 = "110210000000933c84af1ba8b1c214480b6183c6ae90";
 
     public static String RESPONSE_1112_STRING_66 =
-            "1112" + "06000000010199cc" +
-                    "3342";
+            "1112" + "06000000010199cc" + "3342";
 
     public static String REQUEST_1202_STRING_76 = "120210000000933c84af1ba8b1c214480b6183c6ae90";
 
