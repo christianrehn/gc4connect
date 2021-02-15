@@ -1,5 +1,6 @@
 package com.itestra.gc4connect.handler;
 
+import com.itestra.gc4connect.data.GC4BallDetectionData;
 import com.itestra.gc4connect.message.GC4Message;
 import org.apache.commons.lang3.Validate;
 
@@ -10,6 +11,7 @@ import org.apache.commons.lang3.Validate;
 public class Event01BallDetectionHandler extends GC4MessageHandler {
 
     public static final String UNKNOWN_002_TO_005 = "2d" + "00" + "00" + "00";
+    public static final String UNKNOWN_008 = "01";
     public static final String UNKNOWN_050 = "00";
 
     @Override
@@ -17,13 +19,14 @@ public class Event01BallDetectionHandler extends GC4MessageHandler {
         return null;
     }
 
-    public void handleHexMessageString(String hexMessageString) {
+    public GC4BallDetectionData handleHexMessageString(String hexMessageString) {
         Validate.notEmpty(hexMessageString);
         Validate.isTrue(hexMessageString.length() == 2 * MESSAGE_LENGTH_BYTES_BALL_DETECTION, "" + hexMessageString.length());
 
         super.handleHexMessageString(hexMessageString);
 
         System.out.println(String.format("BALL DETECTION EVENT"));
+        GC4BallDetectionData gc4BallDetectionData = new GC4BallDetectionData();
 
         validateHexString(0, OPERATION_BALL_DETECTION, hexMessageString);
         validateHexString(1, DIRECTION_001_GC4_EVENT, hexMessageString);
@@ -38,13 +41,8 @@ public class Event01BallDetectionHandler extends GC4MessageHandler {
             System.out.println(String.format("ball message id=%d", ballMessageId));
         }
 
-        // get ball ready flag
-        {
-            String ballReadyAsHexString = hexSubString(8, 1, hexMessageString);
-            byte[] ballReadyAsBytes = GC4Message.hexStringToByteArray(ballReadyAsHexString);
-            boolean ballReady = ballReadyAsBytes[0] != 0;
-            System.out.println(String.format("ball ready=%s", ballReadyAsBytes[0]));
-        }
+        // unknown byte
+        validateHexString(8, UNKNOWN_008, hexMessageString);
 
         // get number of balls detected
         String numberOfBallsAsHexString = hexSubString(9, 1, hexMessageString);
@@ -60,6 +58,8 @@ public class Event01BallDetectionHandler extends GC4MessageHandler {
             int yBallPosition = GC4Message.lBytesToInt(GC4Message.hexStringToByteArray(yBallPositionAsHexString));
             System.out.println(String.format("ball %d position: x=%d, y=%d", i, xBallPosition, yBallPosition));
         }
+
+        return gc4BallDetectionData;
     }
 
 }

@@ -1,5 +1,6 @@
 package com.itestra.gc4connect.handler;
 
+import com.itestra.gc4connect.data.GC4ShotBallData;
 import com.itestra.gc4connect.message.GC4Message;
 import org.apache.commons.lang3.Validate;
 
@@ -18,13 +19,14 @@ public class Event02ShotBallDataHandler extends GC4MessageHandler {
         return null;
     }
 
-    public void handleHexMessageString(String hexMessageString) {
+    public GC4ShotBallData handleHexMessageString(String hexMessageString) {
         Validate.notEmpty(hexMessageString);
         Validate.isTrue(hexMessageString.length() == 2 * MESSAGE_LENGTH_BYTES_EVENT02_SHOT1, "" + hexMessageString.length());
 
         super.handleHexMessageString(hexMessageString);
 
         System.out.println(String.format("SHOT BALL DATA EVENT"));
+        GC4ShotBallData shotBallData = new GC4ShotBallData();
 
         validateHexString(0, OPERATION_EVENT02_SHOT1, hexMessageString);
         validateHexString(1, DIRECTION_001_GC4_EVENT, hexMessageString);
@@ -35,36 +37,36 @@ public class Event02ShotBallDataHandler extends GC4MessageHandler {
         // unkown int 2
         {
             String unknownAsHexString = hexSubString(6, 4, hexMessageString);
-            int unknownInt = GC4Message.lBytesToInt(GC4Message.hexStringToByteArray(unknownAsHexString));
-            System.out.println(String.format("position 6 to 9 (0x%s) ??? int value=%d", unknownAsHexString, unknownInt));
+            shotBallData.unknownInt2 = GC4Message.lBytesToInt(GC4Message.hexStringToByteArray(unknownAsHexString));
+            System.out.println(String.format("position 6 to 9 (0x%s) ??? int value=%d", unknownAsHexString, shotBallData.unknownInt2));
         }
 
         // shot number
         {
             String shotNumberAsHexString = hexSubString(10, 4, hexMessageString);
-            int shotNumber = GC4Message.lBytesToInt(GC4Message.hexStringToByteArray(shotNumberAsHexString));
-            System.out.println(String.format("position 10 to 13 (0x%s) int shotNumber=%d", shotNumberAsHexString, shotNumber));
+            shotBallData.shotNumber = GC4Message.lBytesToInt(GC4Message.hexStringToByteArray(shotNumberAsHexString));
+            System.out.println(String.format("position 10 to 13 (0x%s) int shotNumber=%d", shotNumberAsHexString, shotBallData.shotNumber));
         }
 
         // ball speed
         {
             String ballSpeedAsHexString = hexSubString(14, 4, hexMessageString);
-            float ballSpeed = GC4Message.lBytesToFloat(GC4Message.hexStringToByteArray(ballSpeedAsHexString));
-            System.out.println(String.format("position 14 to 17 (0x%s) ballSpeed=%f", ballSpeedAsHexString, ballSpeed));
+            shotBallData.ballSpeed = GC4Message.lBytesToFloat(GC4Message.hexStringToByteArray(ballSpeedAsHexString));
+            System.out.println(String.format("position 14 to 17 (0x%s) ballSpeed=%f", ballSpeedAsHexString, shotBallData.ballSpeed));
         }
 
         // launch angle
         {
             String launchAngleAsHexString = hexSubString(18, 4, hexMessageString);
-            float launchAngle = GC4Message.lBytesToFloat(GC4Message.hexStringToByteArray(launchAngleAsHexString));
-            System.out.println(String.format("position 18 to 21 (0x%s) launchAngle=%f", launchAngleAsHexString, launchAngle));
+            shotBallData.launchAngle = GC4Message.lBytesToFloat(GC4Message.hexStringToByteArray(launchAngleAsHexString));
+            System.out.println(String.format("position 18 to 21 (0x%s) launchAngle=%f", launchAngleAsHexString, shotBallData.launchAngle));
         }
 
         // side angle
         {
             String sideAngleAsHexString = hexSubString(22, 4, hexMessageString);
-            float sideAngle = GC4Message.lBytesToFloat(GC4Message.hexStringToByteArray(sideAngleAsHexString));
-            System.out.println(String.format("position 22 to 25 (0x%s) sideAngle=%f", sideAngleAsHexString, sideAngle));
+            shotBallData.sideAngle = GC4Message.lBytesToFloat(GC4Message.hexStringToByteArray(sideAngleAsHexString));
+            System.out.println(String.format("position 22 to 25 (0x%s) sideAngle=%f", sideAngleAsHexString, shotBallData.sideAngle));
         }
 
         // unknown, always 0xCDBF5A45
@@ -79,30 +81,32 @@ public class Event02ShotBallDataHandler extends GC4MessageHandler {
         // unkown float 5
         {
             String unknownAsHexString = hexSubString(38, 4, hexMessageString);
-            float unknownFloat = GC4Message.lBytesToFloat(GC4Message.hexStringToByteArray(unknownAsHexString));
-            System.out.println(String.format("position 38 to 41 (0x%s) ??? float value=%f", unknownAsHexString, unknownFloat));
+            shotBallData. unknownFloat5 = GC4Message.lBytesToFloat(GC4Message.hexStringToByteArray(unknownAsHexString));
+            System.out.println(String.format("position 38 to 41 (0x%s) ??? float value=%f", unknownAsHexString,shotBallData. unknownFloat5));
 
-            int unknownInt = GC4Message.lBytesToInt(GC4Message.hexStringToByteArray(unknownAsHexString));
-            System.out.println(String.format("position 38 to 41 (0x%s) ??? int value=%d", unknownAsHexString, unknownInt));
+            shotBallData. unknownInt5 = GC4Message.lBytesToInt(GC4Message.hexStringToByteArray(unknownAsHexString));
+            System.out.println(String.format("position 38 to 41 (0x%s) ??? int value=%d", unknownAsHexString,shotBallData. unknownInt5));
         }
         // unkown float 6
         {
             String unknownAsHexString = hexSubString(42, 4, hexMessageString);
-            float unknownFloat = GC4Message.lBytesToFloat(GC4Message.hexStringToByteArray(unknownAsHexString));
-            System.out.println(String.format("position 42 to 45 (0x%s) ??? float value=%f", unknownAsHexString, unknownFloat));
+            shotBallData. unknownFloat6 = GC4Message.lBytesToFloat(GC4Message.hexStringToByteArray(unknownAsHexString));
+            System.out.println(String.format("position 42 to 45 (0x%s) ??? float value=%f", unknownAsHexString, shotBallData.unknownFloat6));
 
-            int unknownInt = GC4Message.lBytesToInt(GC4Message.hexStringToByteArray(unknownAsHexString));
-            System.out.println(String.format("position 42 to 45 (0x%s) ??? int value=%d", unknownAsHexString, unknownInt));
+            int unknownInt6 = GC4Message.lBytesToInt(GC4Message.hexStringToByteArray(unknownAsHexString));
+            System.out.println(String.format("position 42 to 45 (0x%s) ??? int value=%d", unknownAsHexString, shotBallData.unknownInt6));
         }
         // unkown float 7
         {
             String unknownAsHexString = hexSubString(46, 4, hexMessageString);
-            float unknownFloat = GC4Message.lBytesToFloat(GC4Message.hexStringToByteArray(unknownAsHexString));
-            System.out.println(String.format("position 46 to 49 (0x%s) float value=%f", unknownAsHexString, unknownFloat));
+            shotBallData. unknownFloat7 = GC4Message.lBytesToFloat(GC4Message.hexStringToByteArray(unknownAsHexString));
+            System.out.println(String.format("position 46 to 49 (0x%s) ??? float value=%f", unknownAsHexString, shotBallData.unknownFloat7));
 
-            int unknownInt = GC4Message.lBytesToInt(GC4Message.hexStringToByteArray(unknownAsHexString));
-            System.out.println(String.format("position 46 to 49 (0x%s) ??? int value=%d", unknownAsHexString, unknownInt));
+            shotBallData. unknownInt7 = GC4Message.lBytesToInt(GC4Message.hexStringToByteArray(unknownAsHexString));
+            System.out.println(String.format("position 46 to 49 (0x%s) ??? int value=%d", unknownAsHexString, shotBallData.unknownInt7));
         }
+
+        return shotBallData;
     }
 
 }

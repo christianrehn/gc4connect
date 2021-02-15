@@ -1,5 +1,7 @@
 package com.itestra.gc4connect.handler;
 
+import com.itestra.gc4connect.data.GC4Data;
+import com.itestra.gc4connect.data.GC4ShotBallData;
 import org.apache.commons.lang3.Validate;
 
 public abstract class GC4MessageHandler {
@@ -58,10 +60,11 @@ public abstract class GC4MessageHandler {
 
     public abstract String getDefaultHexMessageString();
 
-    public void handleHexMessageString(String hexMessageString) {
+    public GC4Data handleHexMessageString(String hexMessageString) {
         Validate.notEmpty(hexMessageString);
 
         compareHexMessageStringWithDefault(hexMessageString);
+        return null;
     }
 
     private void compareHexMessageStringWithDefault(String hexMessageString) {
