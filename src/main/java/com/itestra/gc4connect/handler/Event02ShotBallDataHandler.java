@@ -62,11 +62,11 @@ public class Event02ShotBallDataHandler extends GC4MessageHandler {
             System.out.println(String.format("position 18 to 21 (0x%s) launchAngle=%f", launchAngleAsHexString, shotBallData.launchAngle));
         }
 
-        // side angle
+        // azimuth = side angle
         {
             String sideAngleAsHexString = hexSubString(22, 4, hexMessageString);
             shotBallData.sideAngle = GC4Message.lBytesToFloat(GC4Message.hexStringToByteArray(sideAngleAsHexString));
-            System.out.println(String.format("position 22 to 25 (0x%s) sideAngle=%f", sideAngleAsHexString, shotBallData.sideAngle));
+            System.out.println(String.format("position 22 to 25 (0x%s) azimuth/sideAngle=%f", sideAngleAsHexString, shotBallData.sideAngle));
         }
 
         // unknown, always 0xCDBF5A45

@@ -18,15 +18,16 @@ class Event05ShotClubDataHandlerTest {
      * faceToPath=6.2° Open
      * lie=1.9° Toe Up
      * loft=33.3° Toe Up
-     * faceImpactLateral=9mm heel
-     * faceImpactVertical=13mm low
-     * closureRate=863dps
+     * faceImpactLateral=9 mm heel
+     * faceImpactVertical=13 mm low
+     * closureRate=863 dps
      * <p>
      * carry=31 YDS
      * total=44 YDS
      */
     @Test
     void handleHexMessageString1() {
+        float ballSpeed = 43.578907F;
         String event0500String116ShotClubData =
                 "0500" + "38000000" + "51070000" +
                         "07000000" + "62E40D42" + "17420D42" + "74348AC0" +
@@ -37,6 +38,7 @@ class Event05ShotClubDataHandlerTest {
         Assert.assertEquals(1873, gc4ShotClubData.unknownInt2);
         Assert.assertEquals(7, gc4ShotClubData.shotNumber);
         Assert.assertEquals(35.473030, gc4ShotClubData.clubSpeed, DELTA);
+        System.out.println("from ballspeed and clubspeed calculated efficiency: " + ballSpeed / gc4ShotClubData.clubSpeed);
         Assert.assertEquals(35.314541, gc4ShotClubData.unknownFloat2, DELTA);
         Assert.assertEquals(-4.318903, gc4ShotClubData.angleOfAttack, DELTA);
         Assert.assertEquals(-11.412814, gc4ShotClubData.clubPath, DELTA);
@@ -52,23 +54,25 @@ class Event05ShotClubDataHandlerTest {
 
     /**
      * FSX2020 data:
-     * shotNumber=7
-     * clubSpeed=35.2 MPH
-     * efficiency=1.23
-     * angleOfAttack=4.3° Dn
-     * clubPath=11.4° Out-In
-     * faceToPath=6.2° Open
-     * lie=1.9° Toe Up
-     * loft=33.3° Toe Up
-     * faceImpactLateral=9mm heel
-     * faceImpactVertical=13mm low
-     * closureRate=863dps
+     * shotNumber=9
+     * clubSpeed=37.3 MPH
+     * efficiency=1.09
+     * angleOfAttack=7.6° Dn
+     * clubPath=20.7° Out-In
+     * faceToPath=29.8° Open
+     * lie=3.1° Toe Up
+     * loft=39.7° Toe Up
+     * faceImpactLateral=4 mm heel
+     * faceImpactVertical=34 mm low
+     * closureRate=1164 dps
      * <p>
      * carry=12 YDS
      * total=30 YDS
+     * <p>
      */
     @Test
     void handleHexMessageString2() {
+        float ballSpeed = 40.558445F;
         String event0500String116ShotClubData =
                 "0500" + "38000000" + "E7060000" +
                         "09000000" + "522F1542" + "81AD1842" + "1B9CF1C0" +
@@ -79,6 +83,7 @@ class Event05ShotClubDataHandlerTest {
         Assert.assertEquals(1767, gc4ShotClubData.unknownInt2);
         Assert.assertEquals(9, gc4ShotClubData.shotNumber);
         Assert.assertEquals(37.296211, gc4ShotClubData.clubSpeed, DELTA);
+        System.out.println("from ballspeed and clubspeed calculated efficiency: " + ballSpeed / gc4ShotClubData.clubSpeed);
         Assert.assertEquals(38.169437, gc4ShotClubData.unknownFloat2, DELTA);
         Assert.assertEquals(-7.550306, gc4ShotClubData.angleOfAttack, DELTA);
         Assert.assertEquals(-20.746077, gc4ShotClubData.clubPath, DELTA);
