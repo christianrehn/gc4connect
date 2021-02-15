@@ -1,5 +1,8 @@
 package com.itestra.gc4connect.data;
 
+/**
+ *  where is total spin and spin axis?
+ */
 public class GC4ShotBallData extends GC4Data {
     public int unknownInt2;
     public int shotNumber;

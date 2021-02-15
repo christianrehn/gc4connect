@@ -11,11 +11,11 @@ class Event02ShotBallDataHandlerTest {
     /**
      * FSX2020 data:
      * shotNumber=7
-     * ballSpeed=43,6 MPH
-     * launchAngle=22,8°
-     * sideAngle=7,4° L
-     * descentAngle=26,6°
-     * offline=4,4 YDS L
+     * ballSpeed=43.6 MPH
+     * launchAngle=22.8°
+     * sideAngle=7.4° L
+     * descentAngle=26.6°
+     * offline=4.4 YDS L
      * peak=4 YDS
      * carry=31 YDS
      * total=44 YDS

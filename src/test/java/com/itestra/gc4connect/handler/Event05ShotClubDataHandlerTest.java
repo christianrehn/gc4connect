@@ -42,7 +42,8 @@ class Event05ShotClubDataHandlerTest {
         Assert.assertEquals(35.314541, gc4ShotClubData.unknownFloat2, DELTA);
         Assert.assertEquals(-4.318903, gc4ShotClubData.angleOfAttack, DELTA);
         Assert.assertEquals(-11.412814, gc4ShotClubData.clubPath, DELTA);
-        Assert.assertEquals(-5.211363, gc4ShotClubData.faceToPath, DELTA);
+        Assert.assertEquals(-5.211363, gc4ShotClubData.faceToTarget, DELTA);
+        System.out.println("from clubPath and faceToTarget calculated faceToPath: " + (gc4ShotClubData.clubPath - gc4ShotClubData.faceToTarget) + " (<0 -> open)");
         Assert.assertEquals(1.884062, gc4ShotClubData.lie, DELTA);
         Assert.assertEquals(33.274036, gc4ShotClubData.loft, DELTA);
         Assert.assertEquals(9.247252, gc4ShotClubData.faceImpactLateral, DELTA);
@@ -87,7 +88,8 @@ class Event05ShotClubDataHandlerTest {
         Assert.assertEquals(38.169437, gc4ShotClubData.unknownFloat2, DELTA);
         Assert.assertEquals(-7.550306, gc4ShotClubData.angleOfAttack, DELTA);
         Assert.assertEquals(-20.746077, gc4ShotClubData.clubPath, DELTA);
-        Assert.assertEquals(9.081595, gc4ShotClubData.faceToPath, DELTA);
+        Assert.assertEquals(9.081595, gc4ShotClubData.faceToTarget, DELTA);
+        System.out.println("from clubPath and faceToTarget calculated faceToPath: " + (gc4ShotClubData.clubPath - gc4ShotClubData.faceToTarget) + " (<0 -> open)");
         Assert.assertEquals(3.096836, gc4ShotClubData.lie, DELTA);
         Assert.assertEquals(39.748886, gc4ShotClubData.loft, DELTA);
         Assert.assertEquals(3.871506, gc4ShotClubData.faceImpactLateral, DELTA);

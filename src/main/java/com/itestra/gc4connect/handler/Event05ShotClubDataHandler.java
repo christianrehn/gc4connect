@@ -73,11 +73,11 @@ public class Event05ShotClubDataHandler extends GC4MessageHandler {
             System.out.println(String.format("position 26 to 29 (0x%s) clubPath=%f° (<0 -> out-to-in", clubPathAsHexString, gc4ShotClubData.clubPath));
         }
 
-        // face to path
+        // face to target
         {
-            String faceToPathAsHexString = hexSubString(30, 4, hexMessageString);
-            gc4ShotClubData.faceToPath = GC4Message.lBytesToFloat(GC4Message.hexStringToByteArray(faceToPathAsHexString));
-            System.out.println(String.format("position 30 to 33 (0x%s) ??? faceToPath=%f° (<0 -> open)", faceToPathAsHexString, gc4ShotClubData.faceToPath));
+            String faceToTargetAsHexString = hexSubString(30, 4, hexMessageString);
+            gc4ShotClubData.faceToTarget = GC4Message.lBytesToFloat(GC4Message.hexStringToByteArray(faceToTargetAsHexString));
+            System.out.println(String.format("position 30 to 33 (0x%s) faceToTarget=%f° (<0 -> open)", faceToTargetAsHexString, gc4ShotClubData.faceToTarget));
         }
 
         // lie
