@@ -38,14 +38,14 @@ public class Event02ShotBallDataHandler extends GC4MessageHandler {
         {
             String unknownAsHexString = hexSubString(6, 4, hexMessageString);
             shotBallData.unknownInt2 = GC4Message.lBytesToInt(GC4Message.hexStringToByteArray(unknownAsHexString));
-            System.out.println(String.format("position 6 to 9 (0x%s) ??? int value=%d", unknownAsHexString, shotBallData.unknownInt2));
+            System.out.println(String.format("position 6 to 9 (0x%s) ??? unknownInt2=%d", unknownAsHexString, shotBallData.unknownInt2));
         }
 
         // shot number
         {
             String shotNumberAsHexString = hexSubString(10, 4, hexMessageString);
             shotBallData.shotNumber = GC4Message.lBytesToInt(GC4Message.hexStringToByteArray(shotNumberAsHexString));
-            System.out.println(String.format("position 10 to 13 (0x%s) int shotNumber=%d", shotNumberAsHexString, shotBallData.shotNumber));
+            System.out.println(String.format("position 10 to 13 (0x%s) shotNumber=%d", shotNumberAsHexString, shotBallData.shotNumber));
         }
 
         // ball speed
