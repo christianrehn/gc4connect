@@ -1,10 +1,6 @@
 package com.itestra.gc4connect.handler;
 
-import com.itestra.gc4connect.message.GC4Event;
-import com.itestra.gc4connect.message.GC4Message;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class Event01BallDetectionHandlerTest {
 
@@ -12,14 +8,21 @@ class Event01BallDetectionHandlerTest {
 
     @Test
     void handleHexMessageString() {
-        new Event01BallDetectionHandler().handleHexMessageString(GC4Event.EVENT_0100_STRING_105_BALL_DETECTION);
+        String event0100String105BallDetectionbData =
+                "0100" + "2d000000" + "0100" + "0102" +
+                        "01000000" + "f7000000" + "2e000000" + "5f010000" +
+                        "86000000" + "89000000" + "11111111" + "11111111" +
+                        "22222222" + "22222222" + "00";
+        new Event01BallDetectionHandler().handleHexMessageString(event0100String105BallDetectionbData);
     }
 
     @Test
     void handleHexMessageString2() {
         String event0100String105BallDetectionbData =
-                "01002" +
-                "d00000000000100bc000000ad0000002e0000005f01000086000000890000000000000000000000000000000000000000";
+                "0100" + "2d000000" + "0000" + "0100" +
+                        "bc000000" + "ad000000" + "2e000000" + "5f010000" +
+                        "86000000" + "89000000" + "00000000" + "00000000" +
+                        "00000000" + "00000000" + "00";
         new Event01BallDetectionHandler().handleHexMessageString(event0100String105BallDetectionbData);
     }
 }

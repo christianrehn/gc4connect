@@ -1,18 +1,12 @@
 package com.itestra.gc4connect.handler;
 
 import com.itestra.gc4connect.data.GC4ShotClubData;
-import com.itestra.gc4connect.message.GC4Event;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 class Event05ShotClubDataHandlerTest {
 
     private static final double DELTA = 0.000001;
-
-    @Test
-    void handleHexMessageString() {
-        new Event05ShotClubDataHandler().handleHexMessageString(GC4Event.EVENT_0500_STRING_116_SHOT_CLUB_DATA);
-    }
 
     /**
      * FSX2020 data:

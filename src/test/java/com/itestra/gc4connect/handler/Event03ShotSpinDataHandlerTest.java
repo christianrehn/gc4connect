@@ -1,18 +1,12 @@
 package com.itestra.gc4connect.handler;
 
 import com.itestra.gc4connect.data.GC4ShotSpinData;
-import com.itestra.gc4connect.message.GC4Event;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 class Event03ShotSpinDataHandlerTest {
 
     private static final double DELTA = 0.000001;
-
-    @Test
-    void handleHexMessageString() {
-        new Event03ShotSpinDataHandler().handleHexMessageString(GC4Event.EVENT_0300_STRING_80_SHOT_SPIN_DATA);
-    }
 
     /**
      * FSX2020 data:
