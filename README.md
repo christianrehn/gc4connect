@@ -1,4 +1,4 @@
-To start the program connect GC4 with an Ethernet cable to your Laptop and run src/main/java/com/itestra/gc4connect/GC4Client.java
+To start the program connect GC4 with an Ethernet cable to your Laptop and run the main method in src/main/java/com/itestra/gc4connect/GC4Client.java
 
 TODOs:
 * instead of backspin and sidespin get or calculate total spin + spin axis because most golf ball flight models need it as input
